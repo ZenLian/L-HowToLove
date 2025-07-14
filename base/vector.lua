@@ -1,25 +1,26 @@
 
-local Vector = {}
-Vector.__index = Vector
+local Class = require("base.class")
 
-function Vector.new(x, y)
-    local v = {x = x or 0, y = y or 0}
-    return setmetatable(v, Vector)
+local Vector = Class()
+
+function Vector:init(x, y)
+    self.x = x or 0
+    self.y = y or 0
 end
 
 function Vector.__add(a, b)
-    return Vector.new(a.x + b.x, a.y + b.y)
+    return Vector(a.x + b.x, a.y + b.y)
 end
 
 function Vector.__sub(a, b)
-    return Vector.new(a.x - b.x, a.y - b.y)
+    return Vector(a.x - b.x, a.y - b.y)
 end
 
 function Vector.__mul(a, b)
     if type(a) == "number" then
-        return Vector.new(b.x * a, b.y * a)
+        return Vector(b.x * a, b.y * a)
     elseif type(b) == "number" then
-        return Vector.new(a.x * b, a.y * b)
+        return Vector(a.x * b, a.y * b)
     else
         error("Can only multiply vector by scalar")
     end
@@ -27,7 +28,7 @@ end
 
 function Vector.__div(a, b)
     if type(b) == "number" then
-       return Vector.new(a.x / b, a.y / b)
+       return Vector(a.x / b, a.y / b)
     else
        error("Invalid argument types for vector division.")
     end
@@ -42,7 +43,7 @@ function Vector.__ne(a, b)
 end
 
 function Vector.__unm(a)
-	return Vector.new(-a.x, -a.y)
+	return Vector(-a.x, -a.y)
 end
 
 function Vector.__lt(a, b)
@@ -62,7 +63,7 @@ function Vector.distance(a, b)
 end
 
 ---
---- object functions
+--- Class functions
 ---
 
 function Vector:len()
@@ -77,9 +78,19 @@ function Vector:normalize()
     return self
 end
 
+function Vector:angle()
+    return math.atan(self.y, self.x)
+end
 
-return setmetatable(Vector, {
-    __call = function (_, ...)
-        return Vector.new(...)
-    end
-})
+function Vector:dot(v)
+    return self.x * v.x + self.y * v.y
+end
+
+-- return setmetatable(Vector, {
+--     __call = function (_, ...)
+--         local v = setmetatable({}, Vector)
+--         v:init(...)
+--         return v
+--     end
+-- })
+return Vector

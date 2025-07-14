@@ -1,21 +1,19 @@
 
+local Class = require("base.class")
 local Vector = require("base.vector")
 
-local Player = {}
+local Player = Class()
 
-function Player.new()
+function Player:init()
     -- 常量
-    local player = {
-        width = 50,
-        height = 80,
-        radius = 8
-    }
+    self.width = 50
+    self.height = 80
+    self.radius = 8
     -- 属性
-    player.speed = 100
+    self.speed = 100
 
     -- 变量
-    player.position = Vector(0, 0)
-    return setmetatable(player, {__index = Player})
+    self.position = Vector(0, 0) -- 玩家位置
 end
 
 function Player:move(v)

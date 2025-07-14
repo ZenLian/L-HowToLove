@@ -4,7 +4,7 @@ local Player = require("player")
 -- 游戏启动时，只会调用 1 次
 -- 在这里加载游戏资源，初始化变量和配置
 function love.load()
-    player = Player.new()
+    player = Player()
 
     player.position.x = 400
     player.position.y = 300
